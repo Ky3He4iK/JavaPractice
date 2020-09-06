@@ -1,9 +1,16 @@
 package dev.ky3he4ik.lab.lab16;
 
 public class TableOrdersManager implements OrdersManager {
+    public static final int TABLES_NUM = 10;
+
     private Order[] orders;
 
-    public void add(Order order, int tableNumber) {
+
+    public void add(Order order, int tableNumber) throws OrderAlreadyAddedException {
+        if (tableNumber > TABLES_NUM || tableNumber <= 0)
+            throw new IllegalTableNumber("Table with number " + tableNumber + " does not exist");
+
+//            throw new OrderAlreadyAddedException("");
         //todo
     }
 

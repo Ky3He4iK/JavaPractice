@@ -9,12 +9,17 @@ public class MenuItem {
     private String description;
 
     public MenuItem(int cost, String name, String description) {
+        if (cost < 0 || name.isEmpty() || description.isEmpty())
+            throw new IllegalArgumentException("Cost is less than zero or name is empty or description is empty. Cost: " +
+                    cost + "; name: " + name + "; description: " + description);
         this.cost = cost;
         this.name = name;
         this.description = description;
     }
 
     public MenuItem(String name, String description) {
+        if (name.isEmpty() || description.isEmpty())
+            throw new IllegalArgumentException("Name is empty or description is empty. Name: " + name + "; description: " + description);
         this.name = name;
         this.description = description;
         cost = 0;
