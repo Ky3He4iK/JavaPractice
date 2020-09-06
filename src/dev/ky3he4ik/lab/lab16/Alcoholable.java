@@ -1,4 +1,6 @@
 package dev.ky3he4ik.lab.lab16;
 
-public class Alcoholable {
+public interface Alcoholable {
+    boolean isAlcoholicDrink();
+    double getAlcoholVol();
 }
