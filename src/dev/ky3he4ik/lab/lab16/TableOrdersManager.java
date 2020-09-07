@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 public class TableOrdersManager implements OrdersManager {
     public static final int TABLES_NUM = 10;
     private Order[] orders = new Order[TABLES_NUM];
-    int ordersCount = 0;
+    private int ordersCount = 0;
 
     private void checkTableNumber(int tableNumber) {
         if (tableNumber > TABLES_NUM || tableNumber <= 0)
