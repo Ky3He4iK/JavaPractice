@@ -150,7 +150,7 @@ public class Main {
             System.out.println("Order info:\nCustomer: " + order.getCustomer().toString() + "\n" + order.itemsQuantity() +
                     " items with total cost " + order.costTotal() + "\nItems:");
             for (MenuItem item : order.sortedItemsByCostDesc())
-                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
+                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getDescription() + '\n');
             System.out.println("1) Add item\n"
                     + "2) Remove items\n"
                     + "3) Remove order\n"
@@ -193,7 +193,7 @@ public class Main {
             System.out.println("Order №" + j + " info:\nTable: " + order.getTable() + "\n" + order.itemsQuantity() +
                     " items with total cost " + order.costTotal() + "\nItems:");
             for (MenuItem item : order.sortedItemsByCostDesc())
-                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
+                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getDescription() + '\n');
             System.out.println("1) Add item\n"
                     + "2) Remove items\n"
                     + "3) Remove order\n"
@@ -236,7 +236,7 @@ public class Main {
             System.out.println("Order info:\nCustomer: " + order.getCustomer().toString() + "\n" + order.itemsQuantity() +
                     " items with total cost " + order.costTotal() + "\nItems:");
             for (MenuItem item : order.sortedItemsByCostDesc())
-                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
+                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getDescription() + '\n');
         }
     }
 
@@ -250,7 +250,7 @@ public class Main {
             System.out.println("Order №" + j + " info:\nTable: " + order.getTable() + "\n" + order.itemsQuantity() +
                     " items with total cost " + order.costTotal() + "\nItems:");
             for (MenuItem item : order.sortedItemsByCostDesc())
-                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
+                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getDescription() + '\n');
         }
     }
 
@@ -271,7 +271,7 @@ public class Main {
         }
         System.out.println("Bone appetite! Your order with " + order.itemsQuantity() + " items that cost " + order.costTotal() + " delivered! You got: ");
         for (MenuItem item : order.getItems())
-            System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
+            System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getDescription() + '\n');
     }
 
     private void getOrderTable() {
@@ -287,7 +287,7 @@ public class Main {
         tableOrdersManager.remove(order.getTable());
         System.out.println("Bone appetite! Your order with " + order.itemsQuantity() + " items that cost " + order.costTotal() + " delivered! You got: ");
         for (MenuItem item : order.getItems())
-            System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
+            System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getDescription() + '\n');
     }
 
     private void addCustomer() {
