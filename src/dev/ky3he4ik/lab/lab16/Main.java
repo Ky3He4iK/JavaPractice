@@ -12,50 +12,55 @@ public class Main {
 
     private void doWork() {
         while (true) {
-            System.out.println("Welcome to Va-11 Hall-a. What do you want?\n"
-                    + "1) Add a new order by internet\n"
-                    + "2) Edit an order by internet\n"
-                    + "3) Get information about orders by internet\n"
-                    + "4) Get an order by internet\n"
-                    + "5) Add a new order in bar\n"
-                    + "6) Edit an order by internet\n"
-                    + "7) Get information about orders in bar\n"
-                    + "8) Get an order in bar\n"
-                    + "9) Use a new customer account\n"
-                    + "0) Exit"
-            );
-            int action = getNumber(10, true);
-            switch (action) {
-                case 0:
-                    System.out.println("Goodbye!");
-                    return;
-                case 1:
-                    addOrderInternet();
-                    break;
-                case 2:
-                    editOrderInternet();
-                    break;
-                case 3:
-                    ordersInfoInternet();
-                    break;
-                case 4:
-                    getOrderInternet();
-                    break;
-                case 5:
-                    addOrderTable();
-                    break;
-                case 6:
-                    editOrderTable();
-                    break;
-                case 7:
-                    ordersInfoTable();
-                    break;
-                case 9:
-                    addCustomer();
-                    break;
-                case 8:
-                    getOrderTable();
-                    break;
+            try {
+                System.out.println("Welcome to Va-11 Hall-a. What do you want?\n"
+                        + "1) Add a new order by internet\n"
+                        + "2) Edit an order by internet\n"
+                        + "3) Get information about orders by internet\n"
+                        + "4) Get an order by internet\n"
+                        + "5) Add a new order in bar\n"
+                        + "6) Edit an order in bar\n"
+                        + "7) Get information about orders in bar\n"
+                        + "8) Get an order in bar\n"
+                        + "9) Use a new customer account\n"
+                        + "0) Exit"
+                );
+                int action = getNumber(10, true);
+                switch (action) {
+                    case 0:
+                        System.out.println("Goodbye!");
+                        return;
+                    case 1:
+                        addOrderInternet();
+                        break;
+                    case 2:
+                        editOrderInternet();
+                        break;
+                    case 3:
+                        ordersInfoInternet();
+                        break;
+                    case 4:
+                        getOrderInternet();
+                        break;
+                    case 5:
+                        addOrderTable();
+                        break;
+                    case 6:
+                        editOrderTable();
+                        break;
+                    case 7:
+                        ordersInfoTable();
+                        break;
+                    case 9:
+                        addCustomer();
+                        break;
+                    case 8:
+                        getOrderTable();
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("I am afraid this program is quite unstable. Please try again later");
             }
         }
     }
@@ -115,7 +120,7 @@ public class Main {
             for (DrinkTypeEnum drinkType : DrinkTypeEnum.values()) {
                 j++;
                 if (order.getCustomer().getAge() >= 18 || !drinkType.getValue().isAlcoholicDrink())
-                    System.out.println("" + j + ") " + drinkType.getValue().getName() + " - " + drinkType.getValue().getDescription());
+                    System.out.println("" + j + ") " + drinkType.getValue().getName() + " - " + drinkType.getValue().getCost() + " - " + drinkType.getValue().getDescription());
             }
             if (order.itemsQuantity() == 0)
                 System.out.println("0) Main menu");
@@ -136,28 +141,99 @@ public class Main {
     }
 
     private void editOrderInternet() {
-        //todo
+        Order[] orders = internetOrdersManager.getOrders();
+        int j = selectOrderInternet(orders);
+        if (j == 0)
+            return;
+        Order order = orders[j - 1];
+        while (true) {
+            System.out.println("Order info:\nCustomer: " + order.getCustomer().toString() + "\n" + order.itemsQuantity() +
+                    " items with total cost " + order.costTotal() + "\nItems:");
+            for (MenuItem item : order.sortedItemsByCostDesc())
+                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
+            System.out.println("1) Add item\n"
+                    + "2) Remove items\n"
+                    + "3) Remove order\n"
+                    + "0) Main menu\n"
+            );
+            j = getNumber(4, true);
+            switch (j) {
+                case 0:
+                    return;
+                case 1:
+                    fillOrder(order);
+                    break;
+                case 2:
+                    String[] names = order.itemsNames();
+                    System.out.println("What do you want to remove?");
+                    for (int i = 1; i <= names.length; i++)
+                        System.out.println("" + i + ") " + names[i - 1]);
+                    System.out.println("0) Nothing");
+                    j = getNumber(names.length + 1, true);
+                    if (j == 0)
+                        break;
+                    int k = order.removeAll(names[j - 1]);
+                    System.out.println("Successfully removed " + k + " occurrences of " + names[j - 1]);
+                    break;
+                case 3:
+                    internetOrdersManager.remove(order.getCustomer().getAddress());
+                    System.out.println("Ok");
+                    return;
+            }
+        }
     }
 
     private void editOrderTable() {
-        //todo
+        TableOrder[] orders = tableOrdersManager.getOrders();
+        int j = selectOrderTable(orders);
+        if (j == 0)
+            return;
+        TableOrder order = orders[j - 1];
+        while (true) {
+            System.out.println("Order №" + j + " info:\nTable: " + order.getTable() + "\n" + order.itemsQuantity() +
+                    " items with total cost " + order.costTotal() + "\nItems:");
+            for (MenuItem item : order.sortedItemsByCostDesc())
+                System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
+            System.out.println("1) Add item\n"
+                    + "2) Remove items\n"
+                    + "3) Remove order\n"
+                    + "0) Main menu\n"
+            );
+            j = getNumber(4, true);
+            switch (j) {
+                case 0:
+                    return;
+                case 1:
+                    fillOrder(order);
+                    break;
+                case 2:
+                    String[] names = order.itemsNames();
+                    System.out.println("What do you want to remove?");
+                    for (int i = 1; i <= names.length; i++)
+                        System.out.println("" + i + ") " + names[i - 1]);
+                    System.out.println("0) Nothing");
+                    j = getNumber(names.length + 1, true);
+                    if (j == 0)
+                        break;
+                    int k = order.removeAll(names[j - 1]);
+                    System.out.println("Successfully removed " + k + " occurrences of " + names[j - 1]);
+                    break;
+                case 3:
+                    tableOrdersManager.remove(order.getTable());
+                    System.out.println("Ok");
+                    return;
+            }
+        }
     }
 
     private void ordersInfoInternet() {
         Order[] orders = internetOrdersManager.getOrders();
         while (true) {
-            System.out.println("There are " + orders.length + " orders waiting to be delivered.\nSummary cost is " + internetOrdersManager.ordersCostSummary());
-            int j = 0;
-            for (int i = 0; i < orders.length; i++) {
-                j++;
-                System.out.println("" + j + ") Order №" + j);
-            }
-            System.out.println("0) Main menu");
-            j = getNumber(orders.length + 1, true);
+            int j = selectOrderInternet(orders);
             if (j == 0)
                 return;
             Order order = orders[j - 1];
-            System.out.println("Order №" + j + " info:\nCustomer: " + order.getCustomer().toString() + "\n" + order.itemsQuantity() +
+            System.out.println("Order info:\nCustomer: " + order.getCustomer().toString() + "\n" + order.itemsQuantity() +
                     " items with total cost " + order.costTotal() + "\nItems:");
             for (MenuItem item : order.sortedItemsByCostDesc())
                 System.out.println(item.getName() + ' ' + item.getCost() + ' ' + item.getCost() + '\n');
@@ -167,11 +243,7 @@ public class Main {
     private void ordersInfoTable() {
         TableOrder[] orders = tableOrdersManager.getOrders();
         while (true) {
-            System.out.println("There are " + orders.length + " orders waiting to be delivered.\nSummary cost is " + tableOrdersManager.ordersCostSummary());
-            for (int i = 1; i <= orders.length; i++)
-                System.out.println("" + i + ") Order №" + i + " at table №" + orders[i - 1].getTable());
-            System.out.println("0) Main menu");
-            int j = getNumber(orders.length + 1, true);
+            int j = selectOrderTable(orders);
             if (j == 0)
                 return;
             TableOrder order = orders[j - 1];
@@ -236,6 +308,22 @@ public class Main {
         System.out.println("Please enter apartment number");
         int apartment = getNumber(10000, true);
         account = new Customer(name, surName, age, new Address(city, zipCode, street, buildingLetter, apartment));
+    }
+
+    private int selectOrderInternet(Order[] orders) {
+        System.out.println("There are " + orders.length + " orders waiting to be delivered.\nSummary cost is " + internetOrdersManager.ordersCostSummary());
+        for (int i = 1; i <= orders.length; i++)
+            System.out.println("" + i + ") Order №" + i + " for " + orders[i - 1].getCustomer());
+        System.out.println("0) Main menu");
+        return getNumber(orders.length + 1, true);
+    }
+
+    private int selectOrderTable(TableOrder[] orders) {
+        System.out.println("There are " + orders.length + " orders waiting to be delivered.\nSummary cost is " + tableOrdersManager.ordersCostSummary());
+        for (int i = 1; i <= orders.length; i++)
+            System.out.println("" + i + ") Order №" + i + " at table №" + orders[i - 1].getTable());
+        System.out.println("0) Main menu");
+        return getNumber(orders.length + 1, true);
     }
 
     private int getNumber(int cap, boolean allowZero) {

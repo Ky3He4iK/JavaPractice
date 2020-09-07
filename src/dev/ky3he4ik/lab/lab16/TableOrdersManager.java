@@ -16,6 +16,7 @@ public class TableOrdersManager implements OrdersManager {
         checkTableNumber(tableNumber);
         if (orders[tableNumber - 1] != null)
             throw new OrderAlreadyAddedException("Table №" + tableNumber + " has already have an order");
+        order.setTable(tableNumber);
         ordersCount++;
         orders[tableNumber - 1] = order;
     }
