@@ -6,6 +6,7 @@ public class TableOrder implements Order {
     private int size = 0;
     private MenuItem[] items = new MenuItem[1];
     private Customer customer;
+    private int table;
 
     private void shrink(int nsize) {
         if (nsize * 2 <= items.length) {
@@ -163,5 +164,13 @@ public class TableOrder implements Order {
     @Override
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public int getTable() {
+        return table;
+    }
+
+    public void setTable(int table) {
+        this.table = table;
     }
 }

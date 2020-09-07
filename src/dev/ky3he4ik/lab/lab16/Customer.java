@@ -1,8 +1,8 @@
 package dev.ky3he4ik.lab.lab16;
 
 public class Customer {
-    private static final Customer MATURE_UNKNOWN_CUSTOMER = new Customer("Unknown", "customer", 99, Address.EMPTY_ADDRESS);
-    private static final Customer NOT_MATURE_UNKNOWN_CUSTOMER = new Customer("Unknown", "customer", 99, Address.EMPTY_ADDRESS);
+    public static final Customer MATURE_UNKNOWN_CUSTOMER = new Customer("Unknown", "customer", 99, Address.EMPTY_ADDRESS);
+    public static final Customer NOT_MATURE_UNKNOWN_CUSTOMER = new Customer("Unknown", "customer", 0, Address.EMPTY_ADDRESS);
     private String firstName;
     private String secondName;
     private int age;
@@ -29,5 +29,15 @@ public class Customer {
 
     public Address getAddress() {
         return address;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", age=" + age +
+                ", address=" + address +
+                '}';
     }
 }

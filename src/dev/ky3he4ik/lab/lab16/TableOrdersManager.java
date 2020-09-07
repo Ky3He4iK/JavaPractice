@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TableOrdersManager implements OrdersManager {
     public static final int TABLES_NUM = 10;
-    private Order[] orders = new Order[TABLES_NUM];
+    private TableOrder[] orders = new TableOrder[TABLES_NUM];
     private int ordersCount = 0;
 
     private void checkTableNumber(int tableNumber) {
@@ -12,7 +12,7 @@ public class TableOrdersManager implements OrdersManager {
             throw new IllegalTableNumber("Table with number " + tableNumber + " does not exist");
     }
 
-    public void add(Order order, int tableNumber) throws OrderAlreadyAddedException {
+    public void add(TableOrder order, int tableNumber) throws OrderAlreadyAddedException {
         checkTableNumber(tableNumber);
         if (orders[tableNumber - 1] != null)
             throw new OrderAlreadyAddedException("Table №" + tableNumber + " has already have an order");
@@ -43,8 +43,7 @@ public class TableOrdersManager implements OrdersManager {
         return freeNumbers;
     }
 
-    @Nullable
-    public Order getOrder(int tableNumber) {
+    public TableOrder getOrder(int tableNumber) {
         checkTableNumber(tableNumber);
         return orders[tableNumber - 1];
     }
@@ -87,7 +86,7 @@ public class TableOrdersManager implements OrdersManager {
     @Override
     public int itemsQuantity(String itemName) {
         int cnt = 0;
-        for (Order order: orders) {
+        for (Order order : orders) {
             if (order != null)
                 cnt += order.itemQuantity(itemName);
         }
@@ -97,7 +96,7 @@ public class TableOrdersManager implements OrdersManager {
     @Override
     public int itemsQuantity(MenuItem item) {
         int cnt = 0;
-        for (Order order: orders) {
+        for (Order order : orders) {
             if (order != null)
                 cnt += order.itemQuantity(item);
         }
@@ -105,8 +104,8 @@ public class TableOrdersManager implements OrdersManager {
     }
 
     @Override
-    public Order[] getOrders() {
-        Order[] activeOrders = new Order[ordersCount];
+    public TableOrder[] getOrders() {
+        TableOrder[] activeOrders = new TableOrder[ordersCount];
         int j = 0;
         for (int i = 0; i < TABLES_NUM; i++)
             if (orders[i] != null)
@@ -117,7 +116,7 @@ public class TableOrdersManager implements OrdersManager {
     @Override
     public int ordersCostSummary() {
         int cost = 0;
-        for (Order order: orders) {
+        for (Order order : orders) {
             if (order != null)
                 cost += order.costTotal();
         }
