@@ -2,8 +2,6 @@ package dev.ky3he4ik.pr.pr4;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 // 4.1
 public class Counter extends JFrame {
@@ -24,52 +22,15 @@ public class Counter extends JFrame {
         setLayout(new BorderLayout());
 
         JButton milanBtn = new JButton(MILAN_STR);
-        milanBtn.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                milanScore++;
-                replaceStrings(MILAN_STR);
-            }
 
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-            }
+        milanBtn.addActionListener(actionEvent -> {
+            milanScore++;
+            replaceStrings(MILAN_STR);
         });
         JButton madridBtn = new JButton(MADRID_STR);
-        madridBtn.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                madridScore++;
-                replaceStrings(MADRID_STR);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-            }
+        madridBtn.addActionListener(actionEvent -> {
+            madridScore++;
+            replaceStrings(MADRID_STR);
         });
         resultLbl = new JLabel(RESULT_STR_BASE + milanScore + " X " + madridScore, SwingConstants.CENTER);
         lastScorerLbl = new JLabel(LAST_SCORER_STR_BASE + "N/A", SwingConstants.CENTER);

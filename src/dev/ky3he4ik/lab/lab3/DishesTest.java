@@ -20,6 +20,10 @@ public class DishesTest {
         assert plate.getCost() == 2;
         assert plate.getDurability() == 3;
         assert !plate.isClean();
+        plate.setClean(true);
+        plate.fill();
+        assert plate.getCurrCapacity() == plate.getCapacity();
+        assert !plate.isClean();
 
         Bowl bowl = new Bowl("Simple", 321, 12, false);
         assert bowl.getPattern().equals("Simple");
@@ -38,6 +42,9 @@ public class DishesTest {
         assert bowl.getPattern().equals("Golden");
         assert bowl.getCost() == 654;
         assert bowl.getDurability() == 8;
+        assert !bowl.isClean();
+        bowl.setClean(true);
+        bowl.fill();
         assert !bowl.isClean();
         System.out.println("Dishes tested successfully");
     }

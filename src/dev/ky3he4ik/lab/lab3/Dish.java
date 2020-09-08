@@ -52,4 +52,9 @@ abstract public class Dish {
     public void setClean(boolean clean) {
         isClean = clean;
     }
+
+    abstract void fill();
+
+    @Override
+    public abstract String toString();
 }

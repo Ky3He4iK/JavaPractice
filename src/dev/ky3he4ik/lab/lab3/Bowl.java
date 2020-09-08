@@ -41,6 +41,16 @@ public class Bowl extends Dish {
         pattern = "None";
     }
 
+    @Override
+    void fill() {
+        isClean = false;
+    }
+
+    @Override
+    public String toString() {
+        return "Bowl " + durability + "/" + durability + "; cost: " + cost + "$; pattern: " + pattern + " " + (isClean ? "clean" : "dirty");
+    }
+
     public String getPattern() {
         return pattern;
     }
