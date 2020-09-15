@@ -36,7 +36,6 @@ public class Square extends Rectangle {
 
     @Override
     public String toString() {
-
-        return "Square " + length + 'x' + length + ' ' + ((Shape)this).toString();
+        return "Square " + length + 'x' + length + "#" + color + (filled ? " not" : " ") + " filled";
     }
 }
