@@ -1,7 +1,6 @@
 package dev.ky3he4ik.pr.pr7;
 
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -15,12 +14,27 @@ public class Drunk {
     public Drunk(String p1Set, String p2Set) {
         Scanner scanner = new Scanner(p1Set);
         firstPlayer = new LinkedList<>();
-        for (int i = 0; i < 5; i++)
-            firstPlayer.add(scanner.nextInt());
+        boolean[] a = new boolean[10];
+        for (int i = 0; i < 5; i++) {
+            int t = scanner.nextInt();
+            if (t < 0 || t >= 10 || a[t]) {
+                System.err.println("Invalid cards for first player!");
+                System.exit(1);
+            }
+            a[t - 1] = true;
+            firstPlayer.add(t);
+        }
         scanner = new Scanner(p2Set);
         secondPlayer = new LinkedList<>();
-        for (int i = 0; i < 5; i++)
-            secondPlayer.add(scanner.nextInt());
+        for (int i = 0; i < 5; i++) {
+            int t = scanner.nextInt();
+            if (t < 0 || t >= 10 || a[t]) {
+                System.err.println("Invalid cards for second player!");
+                System.exit(1);
+            }
+            a[t - 1] = true;
+            secondPlayer.add(t);
+        }
         turns = 0;
     }
 
