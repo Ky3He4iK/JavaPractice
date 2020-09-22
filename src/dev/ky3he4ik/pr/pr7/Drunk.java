@@ -1,8 +1,6 @@
 package dev.ky3he4ik.pr.pr7;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 // 2
 public class Drunk {
@@ -11,28 +9,29 @@ public class Drunk {
     private String winner;
     private int turns;
 
-    public Drunk(String p1Set, String p2Set) {
-        Scanner scanner = new Scanner(p1Set);
+    public Drunk() {
         firstPlayer = new LinkedList<>();
         boolean[] a = new boolean[10];
+        System.out.println("Cards for first player: ");
+        Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < 5; i++) {
             int t = scanner.nextInt();
             if (t < 0 || t >= 10 || a[t]) {
                 System.err.println("Invalid cards for first player!");
                 System.exit(1);
             }
-            a[t - 1] = true;
+            a[t] = true;
             firstPlayer.add(t);
         }
-        scanner = new Scanner(p2Set);
         secondPlayer = new LinkedList<>();
+        System.out.println("Cards for second player: ");
         for (int i = 0; i < 5; i++) {
             int t = scanner.nextInt();
             if (t < 0 || t >= 10 || a[t]) {
                 System.err.println("Invalid cards for second player!");
                 System.exit(1);
             }
-            a[t - 1] = true;
+            a[t] = true;
             secondPlayer.add(t);
         }
         turns = 0;
@@ -45,7 +44,7 @@ public class Drunk {
             boolean p1won;
             if (p1card > p2card)
                 p1won = !(p1card == 9 && p2card == 0);
-             else
+            else
                 p1won = p1card == 0 && p2card == 9;
             if (p1won) {
                 firstPlayer.add(p1card);
@@ -54,6 +53,9 @@ public class Drunk {
                 secondPlayer.add(p1card);
                 secondPlayer.add(p2card);
             }
+
+            System.out.println("" + p1card + ' ' + p2card + " -> " + (p1won ? "first" : "second"));
+            System.out.println(firstPlayer.toString() + " " + secondPlayer.toString());
 
             turns++;
         }
@@ -73,7 +75,7 @@ public class Drunk {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Drunk drunk = new Drunk(scanner.nextLine(), scanner.nextLine());
+        Drunk drunk = new Drunk();
         drunk.play();
         if (drunk.getTurns() > 106)
             System.out.println("botva");
