@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 public class Square extends Shape {
-    protected double side;
+    protected int side;
 
-    public Square(double side, double x, double y, Color color) {
+    public Square(int side, int x, int y, Color color) {
         super(x, y, color);
         this.side = side;
     }
@@ -18,15 +18,16 @@ public class Square extends Shape {
         return side;
     }
 
-    public void setSide(double side) {
+    public void setSide(int side) {
         this.side = side;
     }
 
     @Override
     public void draw(Graphics g) {
-        double[] xPoints = {0, side, side, 0};
-        double[] yPoints = {0, 0, side, side};
+        int[] xPoints = {x, side + x, side + x, x};
+        int[] yPoints = {y, y, side + y, side + y};
 
-        drawPath(g, xPoints, yPoints);
+        g.setColor(color);
+        g.fillPolygon(xPoints, yPoints, xPoints.length);
     }
 }

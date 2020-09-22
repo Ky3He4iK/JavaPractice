@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class Circle extends Shape {
-    protected double radius;
+    protected int radius;
 
-    public Circle(double radius, double x, double y, Color color) {
+    public Circle(int radius, int x, int y, Color color) {
         super(x, y, color);
         this.radius = radius;
     }

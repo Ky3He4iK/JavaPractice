@@ -4,11 +4,11 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 abstract public class Shape {
-    protected double x;
-    protected double y;
+    protected int x;
+    protected int y;
     protected Color color;
 
-    public Shape(double x, double y, Color color) {
+    public Shape(int x, int y, Color color) {
         this.x = x;
         this.y = y;
         this.color = color;
@@ -20,19 +20,19 @@ abstract public class Shape {
         color = Color.BLACK;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 

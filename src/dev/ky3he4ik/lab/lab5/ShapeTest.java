@@ -13,7 +13,7 @@ public class ShapeTest extends JPanel {
         shapes = new ArrayList<>(N_FIGURES);
         Random random = new Random();
         for (int i = 0; i < N_FIGURES; i++) {
-            int side = random.nextInt(100);
+            int side = random.nextInt(100) + 20;
             int x = random.nextInt(640);
             int y = random.nextInt(480);
             Color color = new Color(random.nextInt(), false);
