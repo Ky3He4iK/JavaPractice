@@ -30,7 +30,8 @@ public class BoundedWaitList<E> extends WaitList<E> {
     public void add(E element) {
         if (content.size() < capacity)
             super.add(element);
-
+        else
+            throw new IllegalStateException("BoundedWaitList overflow. Maximal capacity: " + capacity);
     }
 
     /**

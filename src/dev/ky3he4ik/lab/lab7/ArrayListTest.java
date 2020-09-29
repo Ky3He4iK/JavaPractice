@@ -14,6 +14,16 @@ public class ArrayListTest {
         array.remove( Integer.valueOf(5));
         array.add(3);
         assert array.indexOf(3) == 1;
+        ArrayList<Character> array2 = new ArrayList<>();
+        array2.add('a');
+        array2.add('8');
+        assert !array2.contains(' ');
+        assert array2.contains('a');
+        assert array2.size() == 2;
+        assert array2.get(1) == '8';
+        array2.remove( Character.valueOf('a'));
+        array2.add('z');
+        assert array2.indexOf('z') == 1;
         System.out.println("ArrayList tested successfully");
     }
 }
