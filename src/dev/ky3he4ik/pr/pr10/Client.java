@@ -21,10 +21,13 @@ public class Client {
         switch (scanner.nextInt()) {
             case 1:
                 client.setChair(factory.createVictorianChair());
+                break;
             case 2:
                 client.setChair(factory.createFunctionalChair());
+                break;
             case 3:
                 client.setChair(factory.createMagicChair());
+                break;
         }
         client.sit();
     }
