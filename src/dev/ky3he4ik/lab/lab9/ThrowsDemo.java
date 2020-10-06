@@ -5,13 +5,16 @@ import java.util.Scanner;
 public class ThrowsDemo {
     public void getKey() {
         Scanner myScanner = new Scanner(System.in);
-        System.out.print("Enter Key ");
-        String key = myScanner.nextLine();
-        try {
-            printDetails(key);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
+        while (true) {
+            System.out.print("Enter Key ");
+            String key = myScanner.nextLine();
+            try {
+                printDetails(key);
+                break;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
