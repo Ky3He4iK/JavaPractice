@@ -1,6 +1,7 @@
 package dev.ky3he4ik.lab.lab10;
 
 
+import java.io.File;
 import java.util.*;
 
 import static java.lang.Math.min;
@@ -29,5 +30,19 @@ public class Solution {
         for (int i = 0; i < min(keys.length, values.length); i++)
             map.put(keys[i], values[i]);
         return map;
+    }
+
+    public static List<String> directoryContent(String directory) {
+        String[] contents = new File(directory).list();
+        if (contents == null)
+            return null;
+
+        for (int i = 0; i < Integer.min(5, contents.length); i++)
+            System.out.println(contents[i]);
+        return Arrays.asList(contents);
+    }
+
+    public static void main(String[] args) {
+        Solution.directoryContent("..");
     }
 }
