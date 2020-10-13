@@ -5,12 +5,12 @@ import java.util.regex.Pattern;
 
 public class RegExp {
     public static boolean isPlusAfterDigit(String s) {
-        return Pattern.matches(".*\\d+ \\+.*", s);
+        return Pattern.matches("^.*\\d+ \\+.*&", s);
     }
 
     public static boolean isGoodPassword(String s) {
         // some magic happened
-        return Pattern.matches("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d_]{8,}", s);
+        return Pattern.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d_]{8,}&", s);
     }
 
     public static void main(String[] args) {
@@ -21,5 +21,9 @@ public class RegExp {
             System.out.println("There are a `+` after a number");
         else
             System.out.println("There are a no `+` after a number");
+        if (isGoodPassword(s))
+            System.out.println("It's a good password!");
+        else
+            System.out.println("You shouldn't use this as a password!");
     }
 }

@@ -49,7 +49,7 @@ public class Redactor extends JFrame {
                 else {
                     document = tDocument;
                     textArea.setEditable(true);
-                    textArea.setText(((TextDocument) document).getData());
+                    textArea.setText(document.getData());
                 }
             }
         });
@@ -63,7 +63,7 @@ public class Redactor extends JFrame {
             }
             int resultCode = fileChooser.showSaveDialog(this);
             if (resultCode == JFileChooser.APPROVE_OPTION) {
-                ((TextDocument) document).setData(textArea.getText());
+                document.setData(textArea.getText());
                 File file = fileChooser.getSelectedFile();
                 try {
                     document.save(file);

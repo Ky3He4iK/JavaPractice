@@ -15,10 +15,12 @@ public class TextDocument implements IDocument {
     public TextDocument() {
     }
 
+    @Override
     public String getData() {
         return data;
     }
 
+    @Override
     public void setData(String data) {
         this.data = data;
     }
