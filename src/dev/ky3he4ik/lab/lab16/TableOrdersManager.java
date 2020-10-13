@@ -1,7 +1,5 @@
 package dev.ky3he4ik.lab.lab16;
 
-import org.jetbrains.annotations.Nullable;
-
 public class TableOrdersManager implements OrdersManager {
     public static final int TABLES_NUM = 10;
     private TableOrder[] orders = new TableOrder[TABLES_NUM];

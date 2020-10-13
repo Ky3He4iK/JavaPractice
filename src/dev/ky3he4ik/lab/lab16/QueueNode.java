@@ -10,6 +10,7 @@ public class QueueNode {
         this.next = next;
         this.value = value;
     }
+
     public QueueNode(QueueNode prev, Order value) {
         this.prev = prev;
         this.next = null;

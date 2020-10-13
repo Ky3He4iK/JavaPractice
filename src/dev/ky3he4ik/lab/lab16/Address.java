@@ -1,6 +1,5 @@
 package dev.ky3he4ik.lab.lab16;
 
-import java.util.Objects;
 
 public class Address {
     public static final Address EMPTY_ADDRESS = new Address("", 0, "", '\0', 0);
@@ -42,17 +41,24 @@ public class Address {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Address)) return false;
+
         Address address = (Address) o;
-        return zipCode == address.zipCode &&
-                buildingLetter == address.buildingLetter &&
-                apartmentNumber == address.apartmentNumber &&
-                Objects.equals(cityName, address.cityName) &&
-                Objects.equals(streetName, address.streetName);
+
+        if (zipCode != address.zipCode) return false;
+        if (buildingLetter != address.buildingLetter) return false;
+        if (apartmentNumber != address.apartmentNumber) return false;
+        if (cityName != null ? !cityName.equals(address.cityName) : address.cityName != null) return false;
+        return streetName != null ? streetName.equals(address.streetName) : address.streetName == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cityName, zipCode, streetName, buildingLetter, apartmentNumber);
+        int result = cityName != null ? cityName.hashCode() : 0;
+        result = 31 * result + zipCode;
+        result = 31 * result + (streetName != null ? streetName.hashCode() : 0);
+        result = 31 * result + (int) buildingLetter;
+        result = 31 * result + apartmentNumber;
+        return result;
     }
 
     @Override
