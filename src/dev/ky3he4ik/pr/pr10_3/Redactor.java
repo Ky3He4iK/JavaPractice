@@ -4,16 +4,19 @@ package dev.ky3he4ik.pr.pr10_3;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 
 public class Redactor extends JFrame {
     private ICreateDocument createDocument;
     private IDocument document;
-    private String filename;
     private JTextArea textArea;
+    private JFileChooser fileChooser;
 
     public Redactor(ICreateDocument concreteCreateDocument) {
         createDocument = concreteCreateDocument;
+        fileChooser = new JFileChooser(".");
 
         setSize(1280, 720);
         setLocation(320, 180);
@@ -37,12 +40,14 @@ public class Redactor extends JFrame {
 
         menuItem = new MenuItem("Open");
         menuItem.addActionListener(e -> {
-            filename = JOptionPane.showInputDialog(null, "Input filename");
-            if (filename != null) {
-                document = createDocument.CreateOpen(filename);
-                if (document == null)
+            int resultCode = fileChooser.showOpenDialog(this);
+            if (resultCode == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                IDocument tDocument = createDocument.CreateOpen(file);
+                if (tDocument == null)
                     JOptionPane.showMessageDialog(null, "Can't open this file!");
                 else {
+                    document = tDocument;
                     textArea.setEditable(true);
                     textArea.setText(((TextDocument) document).getData());
                 }
@@ -56,14 +61,18 @@ public class Redactor extends JFrame {
                 JOptionPane.showMessageDialog(null, "Nothing to save!");
                 return;
             }
-            filename = JOptionPane.showInputDialog(null, "Input filename to save");
-            if (filename != null) {
+            int resultCode = fileChooser.showSaveDialog(this);
+            if (resultCode == JFileChooser.APPROVE_OPTION) {
+                ((TextDocument) document).setData(textArea.getText());
+                File file = fileChooser.getSelectedFile();
                 try {
-                    ((TextDocument) document).setData(textArea.getText());
-                    document.save(filename);
+                    document.save(file);
+                } catch (AccessDeniedException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Can't save to " + file.getPath() + ": not enough rights");
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Can't save to " + filename);
+                    JOptionPane.showMessageDialog(null, "Can't save to " + file.getPath());
                 }
             }
         });
