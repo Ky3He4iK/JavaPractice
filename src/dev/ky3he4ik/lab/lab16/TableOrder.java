@@ -166,6 +166,11 @@ public class TableOrder implements Order {
         this.customer = customer;
     }
 
+    @Override
+    public Object[] getBriefInfo() {
+        return new Object[] {table, customer.getAge(), itemsQuantity(), costTotal()};
+    }
+
     public int getTable() {
         return table;
     }

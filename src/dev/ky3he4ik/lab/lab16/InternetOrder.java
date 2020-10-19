@@ -232,4 +232,9 @@ public class InternetOrder implements Order {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    @Override
+    public Object[] getBriefInfo() {
+        return new Object[] {customer.getAddress().toString(), customer.getAge(), itemsQuantity(), costTotal()};
+    }
 }
