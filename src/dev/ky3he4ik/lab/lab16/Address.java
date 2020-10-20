@@ -2,7 +2,7 @@ package dev.ky3he4ik.lab.lab16;
 
 
 public class Address {
-    public static final Address EMPTY_ADDRESS = new Address("", 0, "", '\0', 0);
+    public static final Address EMPTY_ADDRESS = new Address("UNKNOWN", -1, "UNKNOWN", 'u', -1);
     private final String cityName;
     private final int zipCode;
     private final String streetName;

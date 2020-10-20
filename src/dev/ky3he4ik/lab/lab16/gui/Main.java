@@ -151,26 +151,25 @@ public class Main extends JFrame implements OrderEditWidgetListener {
     }
 
     @Override
-    public void finishedNew(Order order) {
-        tableModel.addRow(order.getBriefInfo());
-    }
-
-    @Override
-    public void finishedEdit(Order order, int row) {
-        Object[] orderInfo = order.getBriefInfo();
-        for (int col = 0; col < tableModel.getColumnCount(); col++)
-            tableModel.setValueAt(orderInfo[col], row, col);
+    public void finished(Order order, int row) {
+        if (row == -1)
+            tableModel.addRow(order.getBriefInfo());
+        else {
+            Object[] orderInfo = order.getBriefInfo();
+            for (int col = 0; col < tableModel.getColumnCount(); col++)
+                tableModel.setValueAt(orderInfo[col], row, col);
+        }
     }
 
     public static void main(String[] args) {
         String ans = (String) JOptionPane.showInputDialog(null, "Where would you drink?", "Choose a delivery method",
-                JOptionPane.QUESTION_MESSAGE, null, new String[]{"In bar", "In house"}, "In bar");
+                JOptionPane.QUESTION_MESSAGE, null, new String[]{"In bar", "At house"}, "At house");
         if (ans != null)
             switch (ans) {
                 case "In bar":
                     new Main(true);
                     break;
-                case "In house":
+                case "At house":
                     new Main(false);
             }
     }
