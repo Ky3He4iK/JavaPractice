@@ -66,9 +66,7 @@ public class OrderEditWidget extends JPanel {
 
             constraints.gridx = 1;
             changeCustomerBtn = new JButton("change");
-            changeCustomerBtn.addActionListener(actionEvent -> {
-                //todo: change customer
-            });
+            changeCustomerBtn.addActionListener(actionEvent -> registerCustomer());
             add(changeCustomerBtn, constraints);
         } else {
             changeCustomerBtn = new JButton();
@@ -121,6 +119,10 @@ public class OrderEditWidget extends JPanel {
         constraints.gridx = 1;
         applyBtn = new JButton("Apply");
         applyBtn.addActionListener(actionEvent -> {
+            if (order.itemsQuantity() == 0) {
+                JOptionPane.showMessageDialog(this, "No drinks selected!");
+                return;
+            }
             if (inBar) {
                 if (row == -1) {
                     try {
@@ -159,8 +161,10 @@ public class OrderEditWidget extends JPanel {
             drinksCnt[i] = 0;
         for (MenuItem item : order.getItems()) {
             for (int i = 0; i < drinksCnt.length; i++)
-                if (item.getName().equals(drinks[i].getName()))
+                if (item.getName().equals(drinks[i].getName())) {
                     drinksCnt[i] += 1;
+                    break;
+                }
         }
         for (int i = 0; i < drinksCnt.length; i++)
             drinksSpinner[i].setValue(drinksCnt[i]);
@@ -171,14 +175,22 @@ public class OrderEditWidget extends JPanel {
 
     void newOrder(int tableNumber) {
         clear();
-        this.tableNumber = tableNumber;
         if (inBar) {
             order = new TableOrder();
+            int ageI = getAge();
+            if (ageI == -1)
+                return;
+            customer.setAge(ageI);
+            age.setValue(ageI);
             order.setCustomer(customer);
         } else {
             order = new InternetOrder();
-            order.setCustomer(customer);
+            if (!registerCustomer()) {
+                setEnabled(false);
+                return;
+            }
         }
+        this.tableNumber = tableNumber;
         setEnabled(true);
         setOrderInfoText();
         customerInfo.setText(toMultilineStr(customer.toString()));
@@ -216,6 +228,66 @@ public class OrderEditWidget extends JPanel {
             orderInfo.setText(toMultilineStr("Total items: 0\nTotal cost: 0 "));
         else
             orderInfo.setText(toMultilineStr("Total items:" + order.itemsQuantity() + "\nTotal cost:" + order.costTotal()));
+    }
+
+    private boolean registerCustomer() {
+        String name = JOptionPane.showInputDialog(
+                this,
+                "Enter your name and surname separated by space:",
+                "Registration: Name",
+                JOptionPane.PLAIN_MESSAGE);
+        if (name == null || name.isEmpty())
+            return false;
+        String[] n = name.split(" ");
+        if (n.length != 2) {
+            JOptionPane.showMessageDialog(this, "Invalid name!");
+            return false;
+        }
+        int ageI = getAge();
+        if (ageI == -1)
+            return false;
+        String s = JOptionPane.showInputDialog(
+                this,
+                "Enter your address in this: format\n"
+                        + "City name, zip_code, street name, building_letter, apartment_number",
+                "Registration: Delivery address",
+                JOptionPane.PLAIN_MESSAGE);
+        if (s == null || s.isEmpty())
+            return false;
+        String[] a = s.split(", ");
+        if (a.length == 5) {
+            try {
+                Address address = new Address(a[0], Integer.parseInt(a[1]), a[2], a[3].charAt(0), Integer.parseInt(a[4]));
+                customer = new Customer(n[0], n[1], ageI, address);
+                order.setCustomer(customer);
+                customerInfo.setText(toMultilineStr(customer.toString()));
+                age.setValue(customer.getAge());
+                return true;
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Invalid address!");
+        return false;
+    }
+
+    private int getAge() {
+        String ageS = JOptionPane.showInputDialog(
+                this,
+                "Enter your age",
+                "Registration: Age",
+                JOptionPane.PLAIN_MESSAGE);
+        if (ageS == null || ageS.isEmpty())
+            return -1;
+        int ageI = -1;
+        try {
+            ageI = Integer.parseInt(ageS);
+        } catch (NumberFormatException e) {
+        }
+        if (ageI < 8) {
+            JOptionPane.showMessageDialog(this, "Invalid age!");
+            return -1;
+        }
+        return ageI;
     }
 
     @Override

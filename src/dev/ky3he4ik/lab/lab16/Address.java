@@ -63,12 +63,12 @@ public class Address {
 
     @Override
     public String toString() {
-        return cityName + "  " + zipCode + "  " + streetName + "  " + buildingLetter + "  " + apartmentNumber + "  ";
+        return cityName + ", " + zipCode + ", " + streetName + ", " + buildingLetter + ", " + apartmentNumber;
     }
 
     public static Address fromString(String str) {
         try {
-            String[] lines = str.split("  ");
+            String[] lines = str.split(", ");
             if (lines.length == 5)
                 return new Address(lines[0], Integer.parseInt(lines[1]), lines[2], lines[3].charAt(0), Integer.parseInt(lines[4]));
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {

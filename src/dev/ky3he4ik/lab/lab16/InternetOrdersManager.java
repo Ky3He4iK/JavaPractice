@@ -19,13 +19,15 @@ public class InternetOrdersManager implements OrdersManager {
     }
 
     public boolean add(Order order) throws OrderAlreadyAddedException {
+        if (head == null)
+            head = new QueueNode();
         if (head.value == null)
             head.value = order;
         else if (tail == null) {
             if (head.value.getCustomer().getAddress().equals(order.getCustomer().getAddress()))
                 throw new OrderAlreadyAddedException("Address " + order.getCustomer().getAddress().toString() + " has already order");
             tail = new QueueNode(head, order);
-            head.prev = tail;
+            head.next = tail;
         } else {
             QueueNode orderNode = getOrderNode(order.getCustomer().getAddress());
             if (orderNode != null)

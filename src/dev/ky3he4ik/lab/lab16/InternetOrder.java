@@ -19,6 +19,8 @@ public class InternetOrder implements Order {
 
     @Override
     public boolean add(MenuItem item) {
+        if (head == null)
+            head = new ListNode();
         if (head.value == null)
             head.value = item;
         else if (tail == null)
@@ -90,7 +92,7 @@ public class InternetOrder implements Order {
         }
         MenuItem[] items = new MenuItem[size];
         ListNode currNode = tail;
-        int id = 1;
+        int id = 0;
         while (currNode != null) {
             items[id++] = currNode.value;
             currNode = currNode.prev;
@@ -101,17 +103,24 @@ public class InternetOrder implements Order {
     @Override
     public boolean remove(String itemName) {
         if (tail == null) {
-            if (head.value != null && head.value.getName().equals(itemName)) {
-                head.value = null;
+            if (head != null && head.value != null && head.value.getName().equals(itemName)) {
+                head = null;
+                size = 0;
                 return true;
             }
             return false;
         }
         ListNode currNode = tail;
-        ListNode prevNode = tail;
+        ListNode prevNode = null;
         while (currNode != null) {
             if (currNode.value.getName().equals(itemName)) {
-                prevNode.prev = currNode.prev;
+                if (prevNode != null)
+                    prevNode.prev = currNode.prev;
+                else if (size == 2)
+                    tail = null;
+                else
+                    tail = tail.prev;
+                size--;
                 return true;
             }
             prevNode = currNode;
@@ -122,70 +131,21 @@ public class InternetOrder implements Order {
 
     @Override
     public boolean remove(MenuItem item) {
-        if (tail == null) {
-            if (head.value != null && head.value.equals(item)) {
-                head.value = null;
-                return true;
-            }
-            return false;
-        }
-        ListNode currNode = tail;
-        ListNode prevNode = tail;
-        while (currNode != null) {
-            if (currNode.value.equals(item)) {
-                prevNode.prev = currNode.prev;
-                return true;
-            }
-            prevNode = currNode;
-            currNode = currNode.prev;
-        }
-        return false;
+        return remove(item.getName());
     }
 
     @Override
     public int removeAll(String itemName) {
-        if (tail == null) {
-            if (head.value != null && head.value.getName().equals(itemName)) {
-                head.value = null;
-                return 1;
-            }
-            return 0;
-        }
-        ListNode currNode = tail;
-        ListNode prevNode = tail;
+
         int cnt = 0;
-        while (currNode != null) {
-            if (currNode.value.getName().equals(itemName)) {
-                prevNode.prev = currNode.prev;
-                cnt++;
-            }
-            prevNode = currNode;
-            currNode = currNode.prev;
-        }
+        while (remove(itemName))
+            cnt++;
         return cnt;
     }
 
     @Override
     public int removeAll(MenuItem item) {
-        if (tail == null) {
-            if (head.value != null && head.value.equals(item)) {
-                head.value = null;
-                return 1;
-            }
-            return 0;
-        }
-        ListNode currNode = tail;
-        ListNode prevNode = tail;
-        int cnt = 0;
-        while (currNode != null) {
-            if (currNode.value.equals(item)) {
-                prevNode.prev = currNode.prev;
-                cnt++;
-            }
-            prevNode = currNode;
-            currNode = currNode.prev;
-        }
-        return cnt;
+        return removeAll(item.getName());
     }
 
     @Override
@@ -210,7 +170,7 @@ public class InternetOrder implements Order {
     @Override
     public int costTotal() {
         if (tail == null) {
-            if (head.value != null)
+            if (size > 0 && head != null && head.value != null)
                 return head.value.getCost();
             return 0;
         }

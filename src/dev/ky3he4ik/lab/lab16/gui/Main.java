@@ -12,7 +12,7 @@ public class Main extends JFrame implements OrderEditWidgetListener {
     private final OrdersManager ordersManager;
 
     private final JTable table;
-    private final DefaultTableModel tableModel;
+    private final MyTableModel tableModel;
     private final OrderEditWidget orderEditWidget;
 
     private Main(boolean inBar) {
@@ -30,13 +30,15 @@ public class Main extends JFrame implements OrderEditWidgetListener {
         if (inBar)
             columnNames[0] = "Table";
 
-        tableModel = new DefaultTableModel(columnNames, 0);
+        tableModel = new MyTableModel(columnNames, 0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
         table.setCellSelectionEnabled(false);
         table.setColumnSelectionAllowed(false);
         table.setRowSelectionAllowed(true);
+        table.setDragEnabled(false);
+
         scrollPane.setMinimumSize(new Dimension(640, 500));
         add(scrollPane, constraints);
 
