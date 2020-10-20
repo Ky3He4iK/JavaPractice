@@ -38,9 +38,9 @@ public class TableOrder implements Order {
     public String[] itemsNames() {
         MenuItem[] items = getItems();
         HashMap<String, Boolean> orders = new HashMap<>();
-        for (MenuItem item : items)
-            if (!orders.containsKey(item.getName()))
-                orders.put(item.getName(), true);
+        for (int i = 0; i < size; i++)
+            if (!orders.containsKey(items[i].getName()))
+                orders.put(items[i].getName(), true);
 
         return (String[]) orders.keySet().toArray();
     }
@@ -53,8 +53,8 @@ public class TableOrder implements Order {
     @Override
     public int itemQuantity(String itemName) {
         int cnt = 0;
-        for (MenuItem item2 : items)
-            if (item2.getName().equals(itemName))
+        for (int i = 0; i < size; i++)
+            if (items[i].getName().equals(itemName))
                 cnt++;
         return cnt;
     }
@@ -62,15 +62,17 @@ public class TableOrder implements Order {
     @Override
     public int itemQuantity(MenuItem item) {
         int cnt = 0;
-        for (MenuItem item2 : items)
-            if (item.equals(item2))
+        for (int i = 0; i < size; i++)
+            if (item.equals(items[i]))
                 cnt++;
         return cnt;
     }
 
     @Override
     public MenuItem[] getItems() {
-        return items.clone();
+        MenuItem[] new_items = new MenuItem[size];
+        System.arraycopy(items, 0, new_items, 0, size);
+        return new_items;
     }
 
     @Override
@@ -151,8 +153,8 @@ public class TableOrder implements Order {
     @Override
     public int costTotal() {
         int sum = 0;
-        for (MenuItem item : items)
-            sum += item.getCost();
+        for (int i = 0; i < size; i++)
+            sum += items[i].getCost();
         return sum;
     }
 

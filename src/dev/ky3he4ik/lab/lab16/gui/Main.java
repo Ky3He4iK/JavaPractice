@@ -45,6 +45,7 @@ public class Main extends JFrame implements OrderEditWidgetListener {
         orderEditWidget.setEnabled(false);
         scrollPane = new JScrollPane(orderEditWidget);
         scrollPane.setMinimumSize(new Dimension(640, 500));
+        orderEditWidget.setMinimumSize(scrollPane.getMinimumSize());
         add(scrollPane, constraints);
 
         constraints.gridy = 1;
@@ -102,7 +103,12 @@ public class Main extends JFrame implements OrderEditWidgetListener {
             int orderRow = getSelectedOrderRow();
             orderEditWidget.clear();
             if (orderRow != -1) {
-                tableModel.getDataVector().remove(orderRow);
+                Object val = tableModel.getValueAt(orderRow, 0);
+                tableModel.removeRow(orderRow);
+                if (inBar)
+                    ((TableOrdersManager) ordersManager).remove((int) val);
+                else
+                    ((InternetOrdersManager) ordersManager).remove(Address.fromString((String) val));
                 JOptionPane.showMessageDialog(this, "Deleted");
             }
         });
@@ -115,7 +121,12 @@ public class Main extends JFrame implements OrderEditWidgetListener {
             orderEditWidget.setEnabled(false);
             int orderRow = getSelectedOrderRow();
             if (orderRow != -1) {
-                tableModel.getDataVector().remove(orderRow);
+                Object val = tableModel.getValueAt(orderRow, 0);
+                tableModel.removeRow(orderRow);
+                if (inBar)
+                    ((TableOrdersManager) ordersManager).remove((int) val);
+                else
+                    ((InternetOrdersManager) ordersManager).remove(Address.fromString((String) val));
                 JOptionPane.showMessageDialog(this, "Enjoy your drinks!");
             }
         });
@@ -129,6 +140,7 @@ public class Main extends JFrame implements OrderEditWidgetListener {
         setLocation(320, 180);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Va-11 Hall-a cyberpunk bar");
     }
 
     private int getSelectedOrderRow() {
@@ -163,7 +175,7 @@ public class Main extends JFrame implements OrderEditWidgetListener {
 
     public static void main(String[] args) {
         String ans = (String) JOptionPane.showInputDialog(null, "Where would you drink?", "Choose a delivery method",
-                JOptionPane.QUESTION_MESSAGE, null, new String[]{"In bar", "At house"}, "At house");
+                JOptionPane.QUESTION_MESSAGE, null, new String[]{"In bar", "At house"}, "In bar");
         if (ans != null)
             switch (ans) {
                 case "In bar":

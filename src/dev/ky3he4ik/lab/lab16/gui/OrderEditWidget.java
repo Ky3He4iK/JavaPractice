@@ -49,7 +49,7 @@ public class OrderEditWidget extends JPanel {
                         drinksCnt[i] = 0;
                     }
                 }
-            } else if ((int) age.getValue() > 18 && customer.getAge() < 18) {
+            } else if ((int) age.getValue() >= 18 && customer.getAge() < 18) {
                 for (int i = 0; i < drinks.length; i++)
                     if (drinks[i].isAlcoholicDrink())
                         drinksSpinner[i].setEnabled(true);
@@ -70,8 +70,10 @@ public class OrderEditWidget extends JPanel {
                 //todo: change customer
             });
             add(changeCustomerBtn, constraints);
-        } else
+        } else {
             changeCustomerBtn = new JButton();
+            customerInfo = new JLabel();
+        }
 
         constraints.gridy++;
         constraints.gridx = 0;
@@ -105,6 +107,8 @@ public class OrderEditWidget extends JPanel {
                     order.remove(drinks[finalI]);
                     diff++;
                 }
+                drinksCnt[finalI] = (int) drinksSpinner[finalI].getValue();
+                setOrderInfoText();
             });
             add(drinksSpinner[i], constraints);
         }
@@ -124,6 +128,7 @@ public class OrderEditWidget extends JPanel {
                     } catch (OrderAlreadyAddedException e) {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(this, "Error: order for this table already exists!");
+                        return;
                     }
                 }
             } else {
@@ -133,10 +138,13 @@ public class OrderEditWidget extends JPanel {
                     } catch (OrderAlreadyAddedException e) {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(this, "Error: order for this address  already exists!");
+                        return;
                     }
                 }
             }
             callback.finished(order, row);
+            clear();
+            setEnabled(false);
         });
         add(applyBtn, constraints);
 
@@ -155,17 +163,25 @@ public class OrderEditWidget extends JPanel {
                     drinksCnt[i] += 1;
         }
         for (int i = 0; i < drinksCnt.length; i++)
-            drinksSpinner[i].setValue(drinksCnt);
+            drinksSpinner[i].setValue(drinksCnt[i]);
         customer = order.getCustomer();
         setOrderInfoText();
         customerInfo.setText(toMultilineStr(customer.toString()));
     }
 
     void newOrder(int tableNumber) {
+        clear();
         this.tableNumber = tableNumber;
-//        load(ordersManager.)
+        if (inBar) {
+            order = new TableOrder();
+            order.setCustomer(customer);
+        } else {
+            order = new InternetOrder();
+            order.setCustomer(customer);
+        }
         setEnabled(true);
-        //todo
+        setOrderInfoText();
+        customerInfo.setText(toMultilineStr(customer.toString()));
     }
 
     void clear() {
@@ -210,6 +226,7 @@ public class OrderEditWidget extends JPanel {
         applyBtn.setEnabled(enabled);
         for (JSpinner drink : drinksSpinner)
             drink.setEnabled(enabled);
+        setOrderInfoText();
     }
 
     private static String toMultilineStr(String text) {
