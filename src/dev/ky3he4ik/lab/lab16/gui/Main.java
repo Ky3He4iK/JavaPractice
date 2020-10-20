@@ -30,9 +30,6 @@ public class Main extends JFrame implements OrderEditWidgetListener {
         if (inBar)
             columnNames[0] = "Table";
 
-
-//        table.setValueAt();
-//        ((DefaultTableModel)table.getModel()).addRow();
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -40,16 +37,38 @@ public class Main extends JFrame implements OrderEditWidgetListener {
         table.setCellSelectionEnabled(false);
         table.setColumnSelectionAllowed(false);
         table.setRowSelectionAllowed(true);
+        scrollPane.setMinimumSize(new Dimension(640, 500));
         add(scrollPane, constraints);
 
         constraints.gridx = 1;
-        orderEditWidget = new OrderEditWidget(ordersManager, this);
-        add(orderEditWidget, constraints);
+        orderEditWidget = new OrderEditWidget(ordersManager, this, inBar);
+        orderEditWidget.setEnabled(false);
+        scrollPane = new JScrollPane(orderEditWidget);
+        scrollPane.setMinimumSize(new Dimension(640, 500));
+        add(scrollPane, constraints);
 
         constraints.gridy = 1;
         constraints.gridx = 0;
         JButton button = new JButton("Add order");
-        button.addActionListener(actionEvent -> orderEditWidget.newOrder());
+        button.addActionListener(actionEvent -> {
+            int tableNum = -1;
+            if (inBar) {
+                int[] tables = ((TableOrdersManager) ordersManager).freeTableNumbers();
+                if (tables.length == 0) {
+                    JOptionPane.showMessageDialog(this, "All tables are busy now!");
+                    return;
+                }
+                Object[] tablesObj = new Object[tables.length];
+                for (int i = 0; i < tables.length; i++)
+                    tablesObj[i] = tables[i];
+                Object res = JOptionPane.showInputDialog(this, "Select table",
+                        "Welcome to Va-11 Hall-a", JOptionPane.QUESTION_MESSAGE, null, tablesObj, tables[0]);
+                if (res == null)
+                    return;
+                tableNum = (int) res;
+            }
+            orderEditWidget.newOrder(tableNum);
+        });
         add(button, constraints);
         constraints.gridx = 1;
         button = new JButton("Edit order");
@@ -59,7 +78,7 @@ public class Main extends JFrame implements OrderEditWidgetListener {
                 orderEditWidget.clear();
             } else {
                 orderEditWidget.load(order, getSelectedOrderRow());
-                orderEditWidget.setEditable(true);
+                orderEditWidget.setEnabled(true);
             }
         });
         add(button, constraints);
@@ -73,7 +92,7 @@ public class Main extends JFrame implements OrderEditWidgetListener {
                 orderEditWidget.clear();
             } else {
                 orderEditWidget.load(order, getSelectedOrderRow());
-                orderEditWidget.setEditable(false);
+                orderEditWidget.setEnabled(false);
             }
         });
         add(button, constraints);
@@ -93,7 +112,7 @@ public class Main extends JFrame implements OrderEditWidgetListener {
         constraints.gridx = 0;
         button = new JButton("Get order");
         button.addActionListener(actionEvent -> {
-            orderEditWidget.setEditable(false);
+            orderEditWidget.setEnabled(false);
             int orderRow = getSelectedOrderRow();
             if (orderRow != -1) {
                 tableModel.getDataVector().remove(orderRow);
