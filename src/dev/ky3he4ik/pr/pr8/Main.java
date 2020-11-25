@@ -7,7 +7,8 @@ public class Main {
         assert !waitList.contains(5);
         waitList.add(5);
         assert waitList.contains(5);
-        assert waitList.remove() == 5;
+        boolean t = waitList.remove() == 5;
+        assert t;
 
         BoundedWaitList<Integer> waitList2 = new BoundedWaitList<>(3);
         assert waitList2.isEmpty();
@@ -15,7 +16,8 @@ public class Main {
         assert !waitList2.contains(5);
         waitList2.add(5);
         assert waitList2.contains(5);
-        assert waitList2.remove() == 5;
+        t = waitList2.remove() == 5;
+        assert t;
         waitList2.add(5);
         waitList2.add(6);
         waitList2.add(7);
@@ -30,7 +32,8 @@ public class Main {
         assert !waitList3.contains(5);
         waitList3.add(5);
         assert waitList3.contains(5);
-        assert waitList3.remove() == 5;
+        t = waitList3.remove() == 5;
+        assert t;
         waitList3.add(5);
         waitList3.add(6);
         waitList3.add(7);

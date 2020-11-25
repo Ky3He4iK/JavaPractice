@@ -8,5 +8,7 @@ public class AuthorTest {
         System.out.println(author2);
         author1.setEmail("newmail@google.com");
         System.out.println(author1);
+
+        System.out.println("Author tested successfully!");
     }
 }

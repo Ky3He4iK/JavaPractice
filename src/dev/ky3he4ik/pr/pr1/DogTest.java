@@ -10,5 +10,7 @@ public class DogTest {
         d1.intoHumanAge();
         d2.intoHumanAge();
         d3.intoHumanAge();
+
+        System.out.println("Dog tested successfully!");
     }
 }

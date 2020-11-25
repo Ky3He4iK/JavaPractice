@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class RegExp {
     public static boolean isPlusAfterDigit(String s) {
-        return Pattern.matches("^.*\\d+ \\+.*&", s);
+        return Pattern.matches("^.*\\d+ \\+.*$", s);
     }
 
     public static void main(String[] args) {

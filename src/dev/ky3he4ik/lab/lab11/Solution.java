@@ -34,6 +34,14 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        Solution.directoryContent(".");
+        System.out.println(directoryContent("."));
+
+        String[] strings = {"test", "asd", "dsa", "aaa"};
+        Integer[] ints = {3, 4, 5, 6};
+        System.out.println(newArrayList(strings));
+        System.out.println(newHashSet(ints));
+        System.out.println(newHashMap(ints, strings));
+
+        System.out.println("Task done successfully!");
     }
 }

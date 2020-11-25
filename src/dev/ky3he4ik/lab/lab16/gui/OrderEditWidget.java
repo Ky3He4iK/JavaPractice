@@ -193,6 +193,15 @@ public class OrderEditWidget extends JPanel {
         this.tableNumber = tableNumber;
         setEnabled(true);
         setOrderInfoText();
+        if ((int)age.getValue() < 18) {
+            for (int i = 0; i < drinks.length; i++) {
+                if (drinks[i].isAlcoholicDrink()) {
+                    drinksSpinner[i].setEnabled(false);
+                    drinksSpinner[i].setValue(0);
+                    drinksCnt[i] = 0;
+                }
+            }
+        }
         customerInfo.setText(toMultilineStr(customer.toString()));
     }
 
